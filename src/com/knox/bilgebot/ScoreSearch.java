@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class ScoreSearch
 {
+    private static final float NULL_PIECE_BONUS = .1f;
 
     public static Solution searchAndRemove(Piece[][] board, int swapX, int swapY)
     {
@@ -31,6 +32,7 @@ public class ScoreSearch
         }
 
         List<Integer> combos = new ArrayList<>();
+        float nullPieceBonus = 0;
 
         int clearedValue = 0;
         // for each horizontal
@@ -38,6 +40,8 @@ public class ScoreSearch
             Piece previousPieceType = null;
             int previousPieceCount = 0;
             for (int x = xMin; x < xMax + 1; x++) {
+                if (board[y][x] == NullPiece.INSTANCE)
+                    nullPieceBonus += NULL_PIECE_BONUS;
                 // new pieces drawn seen as null
                 if(board[y][x] == null) {
                     if(previousPieceCount >= 3) {
@@ -142,9 +146,10 @@ public class ScoreSearch
         removes.forEach(tuple -> {
             board[tuple.y][tuple.x] = FuturePiece.INSTANCE;
         });
+        nullPieceBonus += removes.size() * NULL_PIECE_BONUS;
 
         // https://yppedia.puzzlepirates.com/Bilge_scoring
-        return new Solution(combos.size() == 0 ? 0 : combos.size() * clearedValue, combos);
+        return new Solution(combos.size() == 0 ? 0 : combos.size() * clearedValue + (int)nullPieceBonus, combos);
     }
 
     private static class IntTuple {
