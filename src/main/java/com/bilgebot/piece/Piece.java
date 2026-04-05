@@ -1,5 +1,7 @@
 package com.bilgebot.piece;
 
+import com.bilgebot.Helpers;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -42,7 +44,8 @@ public abstract class Piece
 
     public boolean isColorPiece(Color color)
     {
-        return color.equals(centerColor) || color.equals(centerColorWater);
+        return (Helpers.colorsClose(color, centerColor)
+                || Helpers.colorsClose(color, centerColorWater));
     }
 
     public boolean isUnderWater(Color color) {

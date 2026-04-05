@@ -302,6 +302,7 @@ public class BilgeBot
             status.setStatus("Waiting for board to clear");
             return;
         }
+        status.setStatus("thinking...");
 
         /*if(!autoMode)
         {

@@ -32,23 +32,37 @@ public class PieceSearch
                 int xPos = BORDER_WIDTH + PIECE_LENGTH / 2 + PIECE_LENGTH * x + PIECE_OFFSET;
                 int yPos = BORDER_WIDTH + PIECE_LENGTH / 2 + PIECE_LENGTH * y + PIECE_OFFSET;
                 Color color = new Color(screenCapture.getRGB(xPos, yPos));
+                //sometimes it seems off by 1
+                Color colorLeftOnePixel = new Color(screenCapture.getRGB(xPos - 1, yPos));
+                Color colorRightOnePixel = new Color(screenCapture.getRGB(xPos + 1, yPos));
+                Color colorUpOnePixel = new Color(screenCapture.getRGB(xPos, yPos - 1));
+                Color colorDownOnePixel = new Color(screenCapture.getRGB(xPos, yPos + 1));
 
                 for (int i = 0; i < StandardPiece.pieces.size(); i++)
                 {
-                    if(StandardPiece.pieces.get(i).isColorPiece(color))
+                    if(StandardPiece.pieces.get(i).isColorPiece(color)
+                            || StandardPiece.pieces.get(i).isColorPiece(colorLeftOnePixel)
+                            || StandardPiece.pieces.get(i).isColorPiece(colorRightOnePixel)
+                            || StandardPiece.pieces.get(i).isColorPiece(colorUpOnePixel)
+                            || StandardPiece.pieces.get(i).isColorPiece(colorDownOnePixel))
                     {
                         Piece piece = StandardPiece.pieces.get(i);
                         pieces[y][x] = piece;
                         if (piece.isUnderWater(color) && y < waterLevel) {
                             waterLevel = y;
                         }
+                        break;
                     }
                 }
                 if(pieces[y][x] == null)
                 {
                     for(int i = 0; i < Piece.pieces.size(); i++)
                     {
-                        if(Piece.pieces.get(i).isColorPiece(color))
+                        if(Piece.pieces.get(i).isColorPiece(color)
+                                || Piece.pieces.get(i).isColorPiece(colorLeftOnePixel)
+                                || Piece.pieces.get(i).isColorPiece(colorRightOnePixel)
+                                || Piece.pieces.get(i).isColorPiece(colorUpOnePixel)
+                                || Piece.pieces.get(i).isColorPiece(colorDownOnePixel))
                         {
                             pieces[y][x] = Piece.pieces.get(i);
                         }

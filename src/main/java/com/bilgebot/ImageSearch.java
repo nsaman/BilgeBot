@@ -27,15 +27,14 @@ public class ImageSearch
         int initX;
         int initY;
 
-        int initialColor = search.getRGB(0, 0);
-
+        Color initialColor = new Color(search.getRGB(0, 0));
 
         while (posY < source.getHeight() - search.getHeight())
         {
             while (posX < source.getWidth() - search.getWidth())
             {
-                int color = source.getRGB(posX, posY);
-                if (initialColor == color)
+                Color color = new Color(source.getRGB(posX, posY));
+                if (Helpers.colorsClose(initialColor, color))
                 {
                     initX = posX;
                     initY = posY;
@@ -44,10 +43,10 @@ public class ImageSearch
                     {
                         for (int x = initX; x < initX + search.getWidth() && tempMatch; x++)
                         {
-                            int srcColor = source.getRGB(x, y);
-                            int schColor = search.getRGB(x - initX, y - initY);
+                            Color srcColor = new Color(source.getRGB(x, y));
+                            Color schColor = new Color(search.getRGB(x - initX, y - initY));
 
-                            if (srcColor != schColor)
+                            if (!Helpers.colorsClose(srcColor, schColor))
                             {
                                 tempMatch = false;
                             }
