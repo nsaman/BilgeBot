@@ -85,7 +85,7 @@ public class SolutionSearch
                     solution = ScoreSearch.searchAndRemove(cleanBoard,x,y);
                     if (solution.getScore() > 0) {
                         int crabPoints = SolutionSearch.tickBoard(cleanBoard, waterLevel);
-                        solution.setScore(solution.getScore() + handleBoardClearing(cleanBoard) + crabPoints);
+                        solution.setScore(solution.getScore() + (int)(handleBoardClearing(cleanBoard) * .5) + crabPoints);
                     }
                     bestSwap = findBestChildSwap(cleanBoard, bestSwap, x, y, solution, depth, true);
                 } else {
@@ -268,7 +268,7 @@ public class SolutionSearch
         int sum = 0;
         for(int i = 0; i < swaps.size(); i++)
         {
-            sum += swaps.get(i).getScore() * (1 - (.075 * i));
+            sum += swaps.get(i).getScore() * (1 - (.1 * i));
         }
         return sum;
     }
