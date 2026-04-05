@@ -5,6 +5,7 @@ import com.bilgebot.solution.Solution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -155,6 +156,15 @@ public class SolutionSearch
 
                 bestSwap = findBestChildSwap(cleanBoard, bestSwap, x, y, solution, depth, false);
             }
+        }
+
+        if (bestSwap == null) {
+            // if only redundent moves found, return first move
+            int y = startIndex / board[0].length;
+            int x = startIndex % board[0].length;
+            List returnSwaps = new ArrayList();
+            returnSwaps.add(new Swap(x, y, new Solution(0, Collections.EMPTY_LIST)));
+            return returnSwaps;
         }
 
         return bestSwap;
